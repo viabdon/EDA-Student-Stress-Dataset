@@ -12,7 +12,7 @@ A aplicação foi construída utilizando Python e Streamlit, permitindo uma visu
 4. Aplicar conceitos estudados ao longo do primeiro bimestre da disciplina Modelagem Estatística
 
 ### 📂 Estrutura do Projeto
-
+```
 ├── app.py                # Aplicação principal em Streamlit
 ├── requirements.txt      # Dependências do projeto
 ├── README.md             # Documentação
@@ -28,6 +28,7 @@ A aplicação foi construída utilizando Python e Streamlit, permitindo uma visu
 │   └── utils.py
 │
 └── reports/              # Relatórios
+```
 
 ### ⚙️ Como executar
 
