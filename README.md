@@ -30,7 +30,7 @@ A aplicação foi construída utilizando Python e Streamlit, permitindo uma visu
 └── reports/              # Relatórios
 ```
 
-### ⚙️ Como executar
+### ⚙️ Como executar via terminal
 
 1. Clone o Repositório
 ```
