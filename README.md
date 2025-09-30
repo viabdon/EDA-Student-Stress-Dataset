@@ -20,12 +20,12 @@ A aplicação foi construída utilizando Python e Streamlit, permitindo uma visu
 ├── data/                 # Datasets utilizados
 │
 ├── src/                  # Códigos visando modularização
-|   ├── notebooks/            # Notebooks da análise 
-│       └── eda.ipynb
+|   ├── notebooks/        # Notebooks da análise
+        ├── eda_JM.ipynb             
+│       └── eda_pablo.ipynb
 │   ├── data_loader.py 
 │   ├── preprocessing.py
-│   ├── visualization.py
-│   └── utils.py
+│   └──  visualization.py
 │
 └── reports/              # Relatórios
 ```
@@ -55,7 +55,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-5. OBS - Erros comuns: caso os comandos não funcionem, tente criar um terminal em **bash** para rodar os comandos. Outro problema comum costuma ser não ativar seu ambiente virtual, certifique-se de que no seu terminal aparece **(.venv)** antes do path dos seus comandos. Por fim, antes de executar a aplicação, recomenda-se que se cheque se as dependências foram instaladas corretamente com `pip list` e se o caminho para o interpretador python do seu ambiente virtual está selecionado corretamente.
+5. **OBS - Erros comuns**: caso os comandos não funcionem, tente criar um terminal em **bash** para rodar os comandos. Outro problema comum costuma ser não ativar seu ambiente virtual, certifique-se de que no seu terminal aparece **(.venv)** antes do path dos seus comandos. Por fim, antes de executar a aplicação, recomenda-se que se cheque se as dependências foram instaladas corretamente com `pip list` e se o caminho para o interpretador python do seu ambiente virtual está selecionado corretamente.
 
 ### 📦 Dependências principais
 
@@ -63,9 +63,9 @@ streamlit run app.py
 - numpy
 - matplotlib
 - seaborn
-- plotly
+- plotly.express
 - streamlit
 
 ### 👩‍🎓 Autores
 
-Projeto desenvolvido por Pablo Vinícius e João Miguel como parte da disciplina de Modelagem Estatística.
+Projeto desenvolvido por Pablo Vinícius e João Miguel como parte da disciplina de Modelagem Estatística, ministrada pelo professor [Pedro Girotto](https://github.com/PedroGirotto).
