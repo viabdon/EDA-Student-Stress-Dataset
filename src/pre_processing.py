@@ -33,7 +33,7 @@ def load_data():
             "peer_pressure": "Pressão Externa",
             "extracurricular_activities": "Atividades Extracurriculares",
             "bullying": "Bullying",
-            "stress_level": "Nível de Estresse Num",  # Renomeado para evitar conflito
+            "stress_level": "Nível de Estresse Num",
         }
         df_stress_levels = df_stress_levels.rename(columns=rename_dict_levels)
 

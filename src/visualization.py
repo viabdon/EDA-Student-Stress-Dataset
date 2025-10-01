@@ -27,22 +27,37 @@ def plot_stress_level_distribution(df):
 
 
 def plot_correlation_heatmap(df):
-    """Cria e retorna a figura de um mapa de calor de correlação."""
+    """Cria e retorna um mapa de calor de correlação interativo com Plotly."""
     numeric_df = df.select_dtypes(include=["number"])
     correlation_matrix = numeric_df.corr()
 
-    fig, ax = plt.subplots(figsize=(10, 7))
-    sns.heatmap(
+    # Criar heatmap com Plotly
+    fig = px.imshow(
         correlation_matrix,
-        annot=True,
-        fmt=".2f",
-        cmap="coolwarm",
-        ax=ax,
-        annot_kws={"size": 8},
+        labels=dict(color="Correlação"),
+        x=correlation_matrix.columns,
+        y=correlation_matrix.columns,
+        color_continuous_scale="RdBu_r",  # Vermelho-Azul invertido (similar ao coolwarm)
+        aspect="auto",
+        zmin=-1,
+        zmax=1,
     )
-    plt.xticks(rotation=45, ha="right", fontsize=9)
-    plt.yticks(fontsize=9)
-    plt.tight_layout()
+
+    # Adicionar anotações com os valores
+    fig.update_traces(
+        text=correlation_matrix.round(2).values,
+        texttemplate="%{text}",
+        textfont={"size": 9},
+    )
+
+    fig.update_layout(
+        xaxis_title="",
+        yaxis_title="",
+        height=600,
+    )
+
+    fig.update_xaxes(tickangle=45, side="bottom")
+
     return fig
 
 
@@ -78,7 +93,11 @@ def plot_mental_health_factors(df):
             color="Nível de Estresse",
             box=True,  # adiciona boxplot dentro do violino
             points="all",  # mostra todos os pontos
-            color_discrete_map={"Baixo": "#3D85C6", "Médio": "#FF9900", "Alto": "#E06666"},
+            color_discrete_map={
+                "Baixo": "#3D85C6",
+                "Médio": "#FF9900",
+                "Alto": "#E06666",
+            },
         )
 
         for trace in violin.data:
@@ -106,7 +125,11 @@ def plot_social_factors(df):
             color="Nível de Estresse",
             box=True,
             points="all",
-            color_discrete_map={"Baixo": "#3D85C6", "Médio": "#FF9900", "Alto": "#E06666"},
+            color_discrete_map={
+                "Baixo": "#3D85C6",
+                "Médio": "#FF9900",
+                "Alto": "#E06666",
+            },
         )
 
         for trace in violin.data:
@@ -171,4 +194,62 @@ def plot_question_heatmap(df, x_cols, y_col):
         color_continuous_scale="Reds",
     )
     fig.update_layout(height=600)
+    return fig
+
+
+def plot_question_heatmap_by_category(df, x_cols, y_col):
+    """
+    Cria um heatmap menor e mais focado para uma categoria específica de perguntas.
+    Ideal para visualização agrupada por categoria.
+    """
+    df_melted = df.melt(
+        id_vars=[y_col],
+        value_vars=x_cols,
+        var_name="Fator Acadêmico",
+        value_name="Resposta",
+    )
+
+    df_grouped = (
+        df_melted.groupby([y_col, "Fator Acadêmico", "Resposta"])
+        .size()
+        .reset_index(name="Contagem")
+    )
+
+    order = [
+        "1. Nem um pouco",
+        "2. Raramente",
+        "3. Às vezes",
+        "4. Frequentemente",
+        "5. Extremamente",
+    ]
+    df_grouped["Resposta"] = pd.Categorical(
+        df_grouped["Resposta"], categories=order, ordered=True
+    )
+    df_grouped[y_col] = pd.Categorical(
+        df_grouped[y_col], categories=order, ordered=True
+    )
+
+    pivot_table = df_grouped.pivot_table(
+        index=["Fator Acadêmico", "Resposta"], columns=y_col, values="Contagem"
+    ).fillna(0)
+
+    # Ajusta a altura baseada no número de linhas
+    height = max(300, len(pivot_table) * 25)
+
+    fig = px.imshow(
+        pivot_table,
+        labels=dict(
+            x="Nível de Estresse Experienciado",
+            y="Fator Acadêmico e Resposta",
+            color="Nº de Estudantes",
+        ),
+        x=sorted(df[y_col].unique()),
+        y=pivot_table.index.map(lambda x: f"{x[0]} ({x[1]})"),
+        text_auto=True,
+        aspect="auto",
+        color_continuous_scale="Reds",
+    )
+    fig.update_layout(height=height)
+    fig.update_xaxes(side="top")
+
     return fig
